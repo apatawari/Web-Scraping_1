@@ -1,2 +1,2 @@
-ight so
-alright so
+IM NOT OKAAYYYY
+README.txt
