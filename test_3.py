@@ -45,10 +45,15 @@ for url in links:
 
     poetry = content.find('div', attrs={"class": "entry-content"}).text
     str_poetry = str(poetry)
-    the_poem = str_poetry.split('featured')[0]
+    if 'featured' in str_poetry:
+        the_poem = str_poetry.split('featured')[0]
+    else:
+        the_poem = str_poetry.split('<')[0]
     counter += 1
     print(counter)
     print(the_poem)
+    with open('poetry_'+ str(counter)+'.txt', "w", encoding="utf-8") as f:
+        f.write(the_poem)
 
 
 
