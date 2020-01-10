@@ -17,19 +17,18 @@ pin_element_2 = browser.find_elements_by_xpath('//div[@class="entry-content"]/p[
 
 
 
-# use list comprehension to get the actual repo titles and not the selenium objects.
+# use list comprehension to get the actual content and not the selenium objects.
 links_1 = [x.get_attribute("href") for x in pin_element_1]
 links_2 = [x.get_attribute("href") for x in pin_element_2]
 
-# print out all the titles.
+# print out all the links
 print('links:')
-#print(links_1, '\n') 
-#print(links_2,'\n')
+
 links = links_1 + links_2
 print(links)
 print('\n The number of links:')
 print(len(links))
-#print(len(links_1) + len(links_2))
+
 
 # An extraction of data from the pandamonic poetry blog 
 counter = 0
