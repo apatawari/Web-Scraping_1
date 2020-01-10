@@ -1,6 +1,9 @@
 from selenium import webdriver 
 from selenium.webdriver.common.by import By 
 from selenium.webdriver.support.ui import WebDriverWait 
+from bs4 import BeautifulSoup
+import requests
+
 
 option = webdriver.ChromeOptions()
 option.add_argument(" — incognito")
@@ -24,6 +27,28 @@ print('links:')
 #print(links_2,'\n')
 links = links_1 + links_2
 print(links)
+print('\n The number of links:')
 print(len(links))
 #print(len(links_1) + len(links_2))
+
+# An extraction of data from the pandamonic poetry blog 
+counter = 0
+for url in links:
+    unsafe = '"<>#%{}|\^~[]`'
+    for char in unsafe:
+        url = url.replace(char,"")
+
+
+    response = requests.get(url,timeout=10)
+    content = BeautifulSoup(response.content, "html.parser")
+    #print(content)
+
+    poetry = content.find('div', attrs={"class": "entry-content"}).text
+    str_poetry = str(poetry)
+    the_poem = str_poetry.split('featured')[0]
+    counter += 1
+    print(counter)
+    print(the_poem)
+
+
 
