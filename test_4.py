@@ -23,9 +23,10 @@ SCROLL_PAUSE_TIME = 6
 # Get scroll height
 last_height = browser.execute_script("return document.body.scrollHeight")
 for i in range(2):
-    pin_element_1 = browser.find_elements_by_xpath('//section[@class="global-body"]//section[@class="community-content"]//section[@class="main-postlist content"]//section[@class="post-list new-post-list "]/div[@*]/article[1]/a[1]')
 
+    pin_element_1 = browser.find_elements_by_xpath('//section[@class="global-body"]//section[@class="community-content"]//section[@class="main-postlist content"]//section[@class="post-list new-post-list "]/div[@*]/article[1]/a[1]')
     links_1 = [x.get_attribute("href") for x in pin_element_1]
+    
     while True:
     # Scroll down to bottom
         browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -38,6 +39,7 @@ for i in range(2):
         if new_height == last_height:
             break
         last_height = new_height
+        browser.execute_script("window.scrollTo("+str(last_height)+","+str(new_height)+")")
 
 # clearing repeating links 
 
