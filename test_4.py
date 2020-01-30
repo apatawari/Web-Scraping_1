@@ -1,11 +1,15 @@
 #importing the libraries 
 
 from selenium import webdriver 
-from selenium.webdriver.common.by import By 
-from selenium.webdriver.support.ui import WebDriverWait 
+from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 import requests
 import time
+
+def the_type(x):
+    a = type(x)
+    b = str(a.__name__)
+    return(b)
 
 # setting up the driver and web browser 
 
@@ -16,30 +20,12 @@ browser = webdriver.Chrome(executable_path=r"C:\Users\admin\Desktop\chromedriver
 browser.get("https://aminoapps.com/c/poetry/recent/")
 
 # Setting up the scrolling mechanism 
-
-
-SCROLL_PAUSE_TIME = 6
-
-# Get scroll height
-last_height = browser.execute_script("return document.body.scrollHeight")
-for i in range(2):
-
+elm = browser.find_element_by_tag_name('html')
+for i in range(5):
+    elm.send_keys(Keys.END)
+    time.sleep(5)
     pin_element_1 = browser.find_elements_by_xpath('//section[@class="global-body"]//section[@class="community-content"]//section[@class="main-postlist content"]//section[@class="post-list new-post-list "]/div[@*]/article[1]/a[1]')
     links_1 = [x.get_attribute("href") for x in pin_element_1]
-    
-    while True:
-    # Scroll down to bottom
-        browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-
-    # Wait to load page
-        time.sleep(SCROLL_PAUSE_TIME)
-
-    # Calculate new scroll height and compare with last scroll height
-        new_height = browser.execute_script("return document.body.scrollHeight")
-        if new_height == last_height:
-            break
-        last_height = new_height
-        browser.execute_script("window.scrollTo("+str(last_height)+","+str(new_height)+")")
 
 # clearing repeating links 
 
@@ -65,20 +51,32 @@ for url in links:
     content = BeautifulSoup(response.content, "html5lib")
 
 # Getting the specific data from the webpage 
-    title = content.find('h1',attrs = {"class":"title community-color force-word-break"}).text
-    poetry = content.find('div', attrs={"class": "post-content-toggle"}).text
+    title = content.find('h1',attrs = {"class":"title community-color force-word-break"})
+    title_type = the_type(title)
+
+    if title_type is 'NoneType':
+        break
+    else:
+        title = title.text
+
+    poetry = content.find('div', attrs={"class": "post-content-toggle"})
+    poetry_type = the_type(poetry)
+
+    if poetry_type is 'NoneType':
+        break
+    else:
+        poetry = poetry.text
     counter += 1
 
 # Printing the data we extracted
     print("article number:",counter)
-    print(title)
-    print('\n')
+    print(title,'\n')
     print(poetry,'\n')
     
  #Writing them into text files 
-    with open('article_'+ str(counter)+'.txt', "w", encoding="utf-8") as f:
+    """with open('article_'+ str(counter)+'.txt', "w", encoding="utf-8") as f:
         f.write(title + "\n")
-        f.write(poetry)
+        f.write(poetry)"""
 
 
 
