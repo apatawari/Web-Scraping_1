@@ -47,23 +47,23 @@ for url in links:
         url = url.replace(char,"")
 
 # Accessing the page using BeautifulSoup
-    response = requests.get(url,timeout=5)
+    response = requests.get(url,timeout=10)
     content = BeautifulSoup(response.content, "html5lib")
 
 # Getting the specific data from the webpage 
     title = content.find('h1',attrs = {"class":"title community-color force-word-break"})
     title_type = the_type(title)
 
-    if title_type is 'NoneType':
-        break
+    if title_type == 'NoneType':
+        continue
     else:
         title = title.text
 
     poetry = content.find('div', attrs={"class": "post-content-toggle"})
     poetry_type = the_type(poetry)
 
-    if poetry_type is 'NoneType':
-        break
+    if poetry_type == 'NoneType':
+        continue
     else:
         poetry = poetry.text
     counter += 1
