@@ -44,7 +44,7 @@ for url in links:
 
     unsafe = '"<>#%{}|\^~[]`'  # Weeding out the unsafe characters from the URLs
     for char in unsafe:
-        url = url.replace(char,"")
+        url = url.replace(char,"") 
 
 # Accessing the page using BeautifulSoup
     response = requests.get(url,timeout=10)
