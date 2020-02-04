@@ -7,7 +7,7 @@ import requests
 import time
 
 def the_type(x):
-    """ To find the class name of the type of content """
+    """ To find the the type of content and return the name"""
     a = type(x)
     b = str(a.__name__)
     return(b)
@@ -22,8 +22,11 @@ browser.get("https://aminoapps.com/c/poetry/recent/")
 
 # Setting up the scrolling mechanism 
 elm = browser.find_element_by_tag_name('html')
+
 target_links = 100
 no_of_links = 0
+links = []
+
 while no_of_links < target_links:
     elm.send_keys(Keys.END)
     time.sleep(5)
@@ -32,7 +35,6 @@ while no_of_links < target_links:
 
 # clearing repeating links 
 
-    links = [] 
     for temp in links_1: 
         if temp not in links: 
                 links.append(temp) 
