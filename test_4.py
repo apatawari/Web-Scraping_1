@@ -7,6 +7,7 @@ import requests
 import time
 
 def the_type(x):
+    """ To find the class name of the type of content """
     a = type(x)
     b = str(a.__name__)
     return(b)
@@ -21,7 +22,9 @@ browser.get("https://aminoapps.com/c/poetry/recent/")
 
 # Setting up the scrolling mechanism 
 elm = browser.find_element_by_tag_name('html')
-for i in range(5):
+target_links = 100
+no_of_links = 0
+while no_of_links < target_links:
     elm.send_keys(Keys.END)
     time.sleep(5)
     pin_element_1 = browser.find_elements_by_xpath('//section[@class="global-body"]//section[@class="community-content"]//section[@class="main-postlist content"]//section[@class="post-list new-post-list "]/div[@*]/article[1]/a[1]')
@@ -29,10 +32,11 @@ for i in range(5):
 
 # clearing repeating links 
 
-links = [] 
-for temp in links_1: 
-    if temp not in links: 
-            links.append(temp) 
+    links = [] 
+    for temp in links_1: 
+        if temp not in links: 
+                links.append(temp) 
+    no_of_links = len(links)
 
 print(links)
 print(len(links))
