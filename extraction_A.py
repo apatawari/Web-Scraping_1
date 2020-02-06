@@ -39,7 +39,7 @@ while no_of_links < target_links:
         if temp not in links: 
                 links.append(temp) 
     no_of_links = len(links)
-    
+
 links = links[:target_links]
 
 
@@ -50,13 +50,19 @@ print(len(links))
 counter = 0
 
 for url in links:
-
+    poetry = ''
     unsafe = '"<>#%{}|\^~[]`'  # Weeding out the unsafe characters from the URLs
     for char in unsafe:
         url = url.replace(char,"") 
 
 # Accessing the page using BeautifulSoup
-    response = requests.get(url,timeout=10)
+    
+    try:
+        response = requests.get(url,timeout=10)
+    except requests.exceptions.Timeout:
+        response = requests.get(url,timeout=10)
+      
+    
     content = BeautifulSoup(response.content, "html5lib")
 
 # Getting the specific data from the webpage 
@@ -68,24 +74,31 @@ for url in links:
     else:
         title = title.text
 
-    poetry = content.find('div', attrs={"class": "post-content-toggle"})
-    poetry_type = the_type(poetry)
+    poetry_html = content.find('div', attrs={"class": "post-content-toggle"})
+    poetry_type = the_type(poetry_html)
 
     if poetry_type == 'NoneType':
         continue
     else:
-        poetry = poetry.text
+        for i in poetry_html:
+            try:
+                x = i.text
+                poetry = poetry + '\n' + x
+            except AttributeError:
+                continue
+    
     counter += 1
+    
 
 # Printing the data we extracted
     print("article number:",counter)
     print(title,'\n')
     print(poetry,'\n')
+    time.sleep(2)
     
  #Writing them into text files 
     """with open('article_'+ str(counter)+'.txt', "w", encoding="utf-8") as f:
         f.write(title + "\n")
         f.write(poetry)"""
-
-
+print("skipped =",target_links - counter)
 
