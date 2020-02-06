@@ -39,6 +39,9 @@ while no_of_links < target_links:
         if temp not in links: 
                 links.append(temp) 
     no_of_links = len(links)
+    
+links = links[:target_links]
+
 
 print(links)
 print(len(links))
