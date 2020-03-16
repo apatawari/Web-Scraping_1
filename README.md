@@ -1,6 +1,6 @@
 # Web-Scraping_1
-Extraction of link and content
-Extraction of content
+1. Extraction of link and content
+2. Extraction of content
 
 #Requirement
 1. Install python3 
