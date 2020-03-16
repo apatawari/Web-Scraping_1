@@ -1,8 +1,8 @@
-# Web-Scraping_1
+# WebScraping in python
 1. Extraction of link and content
 2. Extraction of content
 
-#Requirement
+#Requirements
 1. Install python3 
 2. Create a virtual environment (command: python3 -m venv env)
 3. Install dependencies in requirements.txt (Command: pip install -r requirements.txt)
