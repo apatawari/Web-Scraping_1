@@ -6,6 +6,8 @@ import requests
 import time
 import os
 
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+
 #chrome arguments 
 option = webdriver.ChromeOptions()
 option.add_argument(" — incognito")
@@ -52,7 +54,7 @@ def extract_content(links):
         article = ''
 
         article_html = content.find('div', attrs={"class": "_3WlLe clearfix"})
-
+        #article_html = article.encode("utf-8")
         for i in article_html:
             try:
                 x = i.text
@@ -60,11 +62,11 @@ def extract_content(links):
             except AttributeError:
                 y = str(i)
                 article = article + '\n' + y
-
+				
         print('article no:',counter)
-        print('\n',article)
+        print('\n',str(article.encode("utf-8")))
 
-        save_article(article,counter)
+        save_article(str(article.encode("utf-8")),counter)
 
 def save_article(article,counter):
     """To save the articles in the specified path"""
@@ -77,10 +79,10 @@ def save_article(article,counter):
 
 
 # To set up the browser, obtain the URL,Number of pages to extract from and, path to save the articles in:
-browser = webdriver.Chrome(executable_path=r"C:\Users\admin\Desktop\chromedriver\chromedriver.exe", chrome_options=option)
-premise = input("Url of the ToI page with a list of articles on a certain topic")
-saved_path = input("Enter the path where the articles are to be stored")
-pages = int(input("Enter the number of pages to extract"))
+browser = webdriver.Chrome(executable_path=os.path.join(APP_ROOT ,"chromedriver.exe"), chrome_options=option)
+premise = input("Enter URL of Times of India article: ")
+saved_path = os.path.join(APP_ROOT,"txt_files")
+pages = 1
 #  C:/Users/admin/Desktop/temp_p
 # https://timesofindia.indiatimes.com/business/india-business/sensex
 browser.get(premise)
